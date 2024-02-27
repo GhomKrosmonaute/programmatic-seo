@@ -1,13 +1,13 @@
 const { compileTags } = require("../dist/index")
 
 test("test", () => {
-  const titles = compileTags(
-    "test a {thing} [for a {reason} [and a {reason}]]",
-    {
+  const titles = compileTags({
+    pattern: "test a {thing} [for a {reason} [and a {reason}]]",
+    data: {
       thing: ["thing", "stuff"],
       reason: ["reason", "cause"],
-    }
-  )
+    },
+  })
 
   expect(titles).toEqual([
     "test a thing",

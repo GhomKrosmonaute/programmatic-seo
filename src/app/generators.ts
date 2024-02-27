@@ -15,10 +15,13 @@
  * const pattern = "{principalTerms} from {place} [for {forOptional} [and {andOptional}]]"
  * ```
  */
-export function compileTags(
-  pattern: string,
+export function compileTags({
+  pattern,
+  data,
+}: {
+  pattern: string
   data: Record<string, string[]>
-): string[] {
+}): string[] {
   // Function to replace tags with their values and handle recursion
   function expandPattern(
     pattern: string,
