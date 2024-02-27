@@ -79,8 +79,6 @@ test("large compile with sub patterns", () => {
     output.push(value)
   }
 
-  console.log(output)
-
   expect(output).toEqual([
     "test the pattern",
     "test the pattern with compile",

@@ -80,7 +80,7 @@ export function* combinationGenerator({ pattern, data }: CombinationOptions) {
     data: Record<string, string[]>
   ): Generator<string> {
     const tagPattern = /{(\w+)}/ // Matches {tag} patterns
-    const optionalPattern = /\[([^\[\]]*)\]/ // Matches optional patterns
+    const optionalPattern = /\[([^\[\]]*)]/ // Matches optional patterns
 
     // Base case: if there are no more tags to replace, yield the pattern itself
     if (!tagPattern.test(pattern)) {
@@ -135,8 +135,11 @@ export function* combinationGenerator({ pattern, data }: CombinationOptions) {
   // Generator to yield unique titles, managing duplicates with a Set
   const seen = new Set<string>()
   for (const title of expandPattern(pattern, data)) {
-    if (title.includes("[") || title.includes("]"))
-      throw new Error(`Unmatched optional pattern of "${title}"`)
+    if (title.includes("[") || title.includes("]")) {
+      console.warn(`Unmatched optional pattern of "${title}"`)
+
+      continue
+    }
 
     const trimmedTitle = title.replace(/\s+/g, " ").trim()
     if (trimmedTitle && !seen.has(trimmedTitle)) {
