@@ -15,9 +15,9 @@ npm install @ghom/programmatic-seo
 Here's a quick example to get you started:
 
 ```js
-import { compileTags } from "@ghom/programmatic-seo"
+import { combination } from "@ghom/programmatic-seo"
 
-const output = compileTags({
+const output = combination({
   pattern: "{verb} [{adjective}] approach of {noun}",
   data: {
     verb: ["learn", "explore"],
@@ -47,9 +47,13 @@ console.log(output)
 
 ## API Documentation
 
-### `compileTags(options: CompileTagOptions): string[]`
+### `combination(options: CombinationOptions): string[]`
 
-Generates a list of strings based on the provided pattern and data. `CompileTagOptions` includes `pattern` and `data`.
+Generates a list of strings based on the provided pattern and data. `CombinationOptions` includes `pattern` and `data`.
+
+### `combinationGenerator(options: CombinationOptions): Generator<string>`
+
+Gives a generator of strings based on the provided pattern and data. `CombinationOptions` includes `pattern` and `data`.
 
 ## Contributing
 

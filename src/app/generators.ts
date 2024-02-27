@@ -1,15 +1,14 @@
+export interface CombinationOptions {
+  pattern: string
+  data: Record<string, string[]>
+}
+
 /**
  * Generate titles based on a pattern and tags data.
  * @param pattern The `{tags}` will be replaced by all the possible combinations of the `data[tag]` and the `[...]` are optional text parts.
  * @param data The tags and their possible values. Each value can be considered as a sub pattern.
  */
-export function compileTags({
-  pattern,
-  data,
-}: {
-  pattern: string
-  data: Record<string, string[]>
-}): string[] {
+export function combination({ pattern, data }: CombinationOptions): string[] {
   // Function to replace tags with their values and handle recursion
   function expandPattern(
     pattern: string,
@@ -70,17 +69,11 @@ export function compileTags({
 }
 
 /**
- * The same as {@link compileTags} but as a generator for large data sets or large output.
+ * The same as {@link combination} but as a generator for large data sets or large output.
  * @param pattern The `{tags}` will be replaced by all the possible combinations of the `data[tag]` and the `[...]` are optional text parts.
  * @param data The tags and their possible values. Each value can be considered as a sub pattern.
  */
-export function* largeCompileTags({
-  pattern,
-  data,
-}: {
-  pattern: string
-  data: Record<string, string[]>
-}) {
+export function* combinationGenerator({ pattern, data }: CombinationOptions) {
   // Function to replace tags with their values and handle recursion
   function* expandPattern(
     pattern: string,
@@ -142,6 +135,9 @@ export function* largeCompileTags({
   // Generator to yield unique titles, managing duplicates with a Set
   const seen = new Set<string>()
   for (const title of expandPattern(pattern, data)) {
+    if (title.includes("[") || title.includes("]"))
+      throw new Error(`Unmatched optional pattern of "${title}"`)
+
     const trimmedTitle = title.replace(/\s+/g, " ").trim()
     if (trimmedTitle && !seen.has(trimmedTitle)) {
       seen.add(trimmedTitle)
