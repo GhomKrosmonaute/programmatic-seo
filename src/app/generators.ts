@@ -136,8 +136,6 @@ export function* combinationGenerator({ pattern, data }: CombinationOptions) {
   const seen = new Set<string>()
   for (const title of expandPattern(pattern, data)) {
     if (title.includes("[") || title.includes("]")) {
-      console.warn(`Unmatched optional pattern of "${title}"`)
-
       continue
     }
 
